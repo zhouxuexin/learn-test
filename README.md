@@ -23,6 +23,7 @@ var arr = ['a','b','c'];
 arr.forEach(function(v,i,a){
    this.print(v,i);
 },obj);
+
 不传thisArgs时，callback中的 this 默认指向window对象，当传递thisArg时，callback中的this就指向了thisArg,因此这个参数的目的就是为了改变回调函数中的this指向。
 
 对于不支持ES5的浏览器，我们可以对forEach进行简单的扩展来兼容老的浏览器：
@@ -45,6 +46,7 @@ var newArr = arr.filter(function(item){
 });
 
 newArr -> ["a","a"]
+
 代码很简单，一看就明白，没有filter的时候，要实现这个功能，我们事先要创建一个空的数组，把匹配到的元素再push进去，现在就不需要那么麻烦了，我们再看看对filter的扩展：
 
 if(!Array.prototype.filter) {
@@ -68,12 +70,15 @@ var arr = [
    {w:15,h:20},
    {w:12,h:12}
 ];
+
 var newArr = arr.map(function(item){
    //根据长宽计算出面积并赋值给新属性area
    item.area = item.w * item.h;
    return item;
 });
+
 newArr[0] - > {w: 10, h: 10, area: 100}
+
 可以看出，newArr返回的是增加了area属性的对象数组。这个方法非常实用，一般情况下，当一个ajax请求返回时，我们都要对其结果集进行过滤和校验等操作，这时map就派上用场了。我们再看看如果对map进行兼容性扩展：
 
 if(!Array.prototype.map) {
@@ -102,6 +107,7 @@ var newArr = arr.reduce(function(previousValue, currentValue, currentIndex, arra
 6 4 3
 
 newArr -> 10
+
 从运行结果可以看出，reduce实现了数组元素的累加，reduce接收4个参数，previousValue中存放的是上一次callback返回的结果，currentValue是当前元素，currentIndex是当前元素位置，array是当前数组。previousValue初始值为数组的第一个元素，数组从第2个元素开始遍历。我们再来看看initialValue参数究竟是什么鬼：
 
 var arr = [1,2,3,4];
@@ -116,6 +122,7 @@ var newArr = arr.reduce(function(previousValue, currentValue, currentIndex, arra
 106 4 3
 
 newArr -> 110
+
 从运行结果看，initialValue参数指定了previousValue的初始值，更重要的是，这次数组是从第1个位置开始遍历，而不再是从第2个位置开始了。 现在回过头来，对照这两个例子，我相信你一定能够理解reduce的作用了。下面对于reduce的扩展会巩固你对reduce的理解：
 
 if(!Array.prototype.reduce) {
@@ -148,6 +155,7 @@ var result = arr.some( function( item, index, array ){
  3 2 [1, 2, 3, 4]
 
  restule -> true
+
 从运行结果看，some检测整个数组，只要当arr中有一个元素符合条件item>2 就停止检测和遍历，并返回true，以表示检测到目标。这和我们在for循环中使用break语言的作用有点类似，这会儿你应该明白some的作用了吧！ 下面对于some的扩展会有助于你对some的理解：
 
 if(!Array.prototype.some) {
@@ -176,6 +184,7 @@ var result = arr.every( function( item, index, array ){
  3 2 [1, 2, 3, 4]
 
  result -> false
+
 从运行结果看，当检测第3个元素时，item<2为false, 停止检测，并返回false, 这说明every在检测元素时，要求每一个元素都要符合条件item<3,如果有一个不符合就停止检测，并返回false,(ps：你可以测试item<5时的运行结果，返回值一定是true). 那every到底有什么用武之地呢？ 当一个for循环使用了break语句后，我们想知道for循环是否正常的执行完时， 我们一般会通过检测for中的索引i==arr.length来判断,因此every的作用就体现在这里。 我们再看看对于every的扩展：
 
 if(!Array.prototype.every) {
