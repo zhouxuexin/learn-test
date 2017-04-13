@@ -9,8 +9,8 @@ ES5规范在Array的原型上新增了9个方法，分别是forEach、filter、m
 var arr=['a','b','c'];
 	arr.forEach(function(v,i,r){
 		console.log(v,i,r);//==>a 0 ["a", "b", "c"]
-					         // b 1 ["a", "b", "c"]
-							 // c 2 ["a", "b", "c"]
+				     // b 1 ["a", "b", "c"]
+				     // c 2 ["a", "b", "c"]
 
 从输出的接口可以看出，callback中传入了3个参数v,i,r 分别表示当前元素、当前位置、数组对象。再看看使用thisArg的例子：
 
